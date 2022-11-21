@@ -93,13 +93,16 @@ public class AttendanceActivity extends AppCompatActivity {
         binding.shimmer.setVisibility(View.VISIBLE);
         binding.listView.setVisibility(View.VISIBLE);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("uploads");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        Log.d("up","up");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 uploadFiles.clear();
                 for(DataSnapshot postSnapshot: snapshot.getChildren()){
                     UploadFile uploadFile = postSnapshot.getValue(UploadFile.class);
                     uploadFile.getData(postSnapshot.getKey());
+                    Toast.makeText(getApplicationContext(),uploadFile.getName()+" "+String.valueOf(uploadFile.getAttended()),Toast.LENGTH_LONG).show();
+                    Log.d("Downs",uploadFile.getName() +" this "+String.valueOf(uploadFile.getAttended()));
                     uploadFiles.add(uploadFile);
                 }
                 if(uploadFiles.size()==0){

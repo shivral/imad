@@ -39,7 +39,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
 
         holder.filesTextView.setText(files.getName());
         holder.std_name.setText(files.getStudent());
-        holder.date_text.setText(files.getDate());
+        holder.date_text.setText(String.valueOf( files.getAttended()));
         holder.time_text.setText(files.getTime());
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override

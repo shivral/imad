@@ -2,9 +2,11 @@ package com.example.smartattendance.FaceRecognition;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.example.smartattendance.Attendance.AttendanceActivity;
 import com.example.smartattendance.Model.StudentModel;
 import com.example.smartattendance.Model.UploadFile;
 import com.example.smartattendance.Model.Users;
@@ -45,6 +47,8 @@ import android.graphics.YuvImage;
 import android.media.Image;
 
 import android.text.InputType;
+import android.text.style.UpdateLayout;
+import android.util.Log;
 import android.util.Pair;
 import android.util.Size;
 import android.view.Menu;
@@ -65,7 +69,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.mlkit.vision.common.InputImage;
@@ -705,12 +713,39 @@ public class FaceRecogntionActivity extends AppCompatActivity {
                         }else if(user_name!="Unknown"&&user_name!="No Face Detected!"&&recognize.getText().equals("Add Face")){
                             arraylist.add(user_name);
                             //TODO Firebase
-
-                            UploadFile uploadFile = new UploadFile(user_name,currentDate,currentTime);
+                            UploadFile uploadFile = new UploadFile(user_name,currentDate,currentTime,0);
                             if(user_name!="Unknown"&&user_name!="No Face Detected!"&&recognize.getText().equals("Add Face")){
 
                                 //Firebase part
-                                database.getReference().child("uploads").child(user_name+"N2bGujnn8SJx4y7jhIw").setValue(uploadFile);
+
+                                Map<String, Object> updates = new HashMap<>();
+
+                                updates.put("date", currentDate);
+                                updates.put("time",currentTime);
+                                updates.put("student",user_name);
+//                                updates.put()
+                                updates.put("attended", ServerValue.increment(1));
+                                database.getReference().child("uploads").child(user_name+"N2bGujnn8SJx4y7jhIw").updateChildren(updates);
+
+//                                database.getReference().child("uploads").child(user_name+"N2bGujnn8SJx4y7jhIw").addValueEventListener(new ValueEventListener() {
+//                                    @Override
+////                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+////                                        UploadFile up=snapshot.getValue(UploadFile.class);
+////
+////                                        Toast.makeText(getApplicationContext(), "Successful"+String.valueOf(up.getAttendance()), Toast.LENGTH_SHORT).show();
+////
+//////                                        database.getReference().child("uploads").child(user_name+"N2bGujnn8SJx4y7jhIw").setValue(up);
+////
+////                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                    }
+//                                });
+
+//                                UploadFile up=new UploadFile(user_name,currentDate,currentTime,)
+//                                ServerValue.increment()
 
                                 //sql part
                                 StudentModel studentModel = new StudentModel(user_name,currentDate,currentTime);
@@ -967,5 +1002,9 @@ public class FaceRecogntionActivity extends AppCompatActivity {
         return retrievedMap;
     }
 
+    public void onBackPressed() {
+        Intent i=new Intent(this, AttendanceActivity.class);
+        startActivity(i);
+    }
 
 }

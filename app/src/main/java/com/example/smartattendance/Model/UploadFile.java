@@ -9,6 +9,7 @@ public class UploadFile {
     private String student;
     private String date;
     private String time;
+    private int attended;
 
     public UploadFile() {
     }
@@ -18,15 +19,17 @@ public class UploadFile {
         this.url = url;
     }
 
-    public UploadFile(String student, String date, String time){
+    public UploadFile(String student, String date, String time,int attendance){
         this.student = student;
         this.date = date;
         this.time = time;
+       this.attended=attendance;
     }
 
     public String getStudent() {
         return student;
     }
+    public  int getAttended(){return attended;}
 
     public void setStudent(String student) {
         this.student = student;
