@@ -705,6 +705,7 @@ public class FaceRecogntionActivity extends AppCompatActivity {
                         }else if(user_name!="Unknown"&&user_name!="No Face Detected!"&&recognize.getText().equals("Add Face")){
                             arraylist.add(user_name);
                             //TODO Firebase
+
                             UploadFile uploadFile = new UploadFile(user_name,currentDate,currentTime);
                             if(user_name!="Unknown"&&user_name!="No Face Detected!"&&recognize.getText().equals("Add Face")){
 

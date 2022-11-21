@@ -23,7 +23,7 @@
         android:theme="@style/Theme.SmartAttendance"
         android:hardwareAccelerated="false"
         android:largeHeap="true"
-        tools:targetApi="31">
+        tools:targetApi="27">
 
         <activity
             android:name=".FaceRecognition.FaceRecogntionActivity"
@@ -38,16 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Profile.EditProfileActivity"
-            android:exported="false"
-            android:label="Edit Profile" />
-        <activity
-            android:name=".Profile.ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LearnMore.LearnMoreActivity"
-            android:exported="false" />
+
         <activity
             android:name=".Attendance.AttendanceActivity"
             android:label="Attendance"

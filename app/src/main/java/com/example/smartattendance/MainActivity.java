@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.smartattendance.Attendance.AttendanceActivity;
-import com.example.smartattendance.LearnMore.LearnMoreActivity;
-import com.example.smartattendance.Profile.ProfileActivity;
 import com.example.smartattendance.SignIn.SignInActivity;
 import com.example.smartattendance.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,23 +53,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+//
+//        binding.learnMore.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, LearnMoreActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
-        binding.learnMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LearnMoreActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        binding.profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        binding.profile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
 //        binding.aboutUs.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
