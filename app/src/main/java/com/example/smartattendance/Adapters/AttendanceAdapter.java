@@ -40,32 +40,21 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
         holder.filesTextView.setText(files.getName());
         holder.std_name.setText(files.getStudent());
         holder.date_text.setText(String.valueOf( files.getAttended()));
-        holder.time_text.setText(files.getTime());
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Intent.ACTION_VIEW);
-//                intent.setData(Uri.parse(files.getUrl()));
-//                context.startActivity(intent);
-//            }
-//        });
+        holder.time_text.setText(files.getDate().toString() +" "+files.getTime());
+
     }
 
     @Override
     public int getItemCount() {
         return uploadFileList.size();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder{
-
         private TextView filesTextView;
         private TextView std_name;
         private TextView date_text;
         private TextView time_text;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             filesTextView = itemView.findViewById(R.id.attendance_file);
             std_name = itemView.findViewById(R.id.std_name);
             date_text = itemView.findViewById(R.id.Date);

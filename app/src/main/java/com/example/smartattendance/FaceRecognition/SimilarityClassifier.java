@@ -2,21 +2,11 @@ package com.example.smartattendance.FaceRecognition;
 
 public class SimilarityClassifier {
 
-    /** An immutable result returned by a Classifier describing what was recognized. */
     static class Recognition {
-        /**
-         * A unique identifier for what has been recognized. Specific to the class, not the instance of
-         * the object.
-         */
         private final String id;
-        /** Display name for the recognition. */
         private final String title;
-
-
-
         private final Float distance;
         private Object extra;
-
         public Recognition(final String id, final String title, final Float distance) {
             this.id = id;
             this.title = title;
@@ -24,7 +14,6 @@ public class SimilarityClassifier {
             this.extra = null;
 
         }
-
         public void setExtra(Object extra) {
             this.extra = extra;
         }

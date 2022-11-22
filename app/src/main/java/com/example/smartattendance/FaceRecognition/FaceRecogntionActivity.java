@@ -106,11 +106,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class FaceRecogntionActivity extends AppCompatActivity {
-
-    /**
-     * A ListenableFuture represents the result of an asynchronous computation:
-     * a computation that may or may not have finished producing a result yet.
-     */
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     FaceDetector detector;
 
@@ -174,7 +169,6 @@ public class FaceRecogntionActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
 
         calendar = Calendar.getInstance();
-        String currentDate = new SimpleDateFormat("dd-MM-yy", Locale.getDefault()).format(new Date());
         String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
         //--------------------------------------------------------------------------------------------
@@ -218,9 +212,6 @@ public class FaceRecogntionActivity extends AppCompatActivity {
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
         }
-
-        //On-screen switch to toggle between Cameras.
-        //back and front switch of camera
         camera_switch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -266,7 +257,6 @@ public class FaceRecogntionActivity extends AppCompatActivity {
                     face_preview.setVisibility(View.VISIBLE);
                     preview_info.setText("1.Bring Face in view of Camera.\n\n2.Your Face preview will appear here." +
                             "\n\n3.Click Add button to save face.");
-
                 }
 
             }
@@ -437,7 +427,6 @@ public class FaceRecogntionActivity extends AppCompatActivity {
         }
     }
 
-    //display the list of recognition list
     private void displaynameListview() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -713,13 +702,10 @@ public class FaceRecogntionActivity extends AppCompatActivity {
                         }else if(user_name!="Unknown"&&user_name!="No Face Detected!"&&recognize.getText().equals("Add Face")){
                             arraylist.add(user_name);
                             //TODO Firebase
-                            UploadFile uploadFile = new UploadFile(user_name,currentDate,currentTime,0);
                             if(user_name!="Unknown"&&user_name!="No Face Detected!"&&recognize.getText().equals("Add Face")){
 
                                 //Firebase part
-
                                 Map<String, Object> updates = new HashMap<>();
-
                                 updates.put("date", currentDate);
                                 updates.put("time",currentTime);
                                 updates.put("student",user_name);
@@ -769,6 +755,7 @@ public class FaceRecogntionActivity extends AppCompatActivity {
 
     }
 
+    /*TF LITE DOC CODE GOT FROM MEDIUM*/
     //Compare Faces by distance between face embeddings
     private List<Pair<String, Float>> findNearest(float[] emb) {
         List<Pair<String, Float>> neighbour_list = new ArrayList<Pair<String, Float>>();
@@ -928,25 +915,15 @@ public class FaceRecogntionActivity extends AppCompatActivity {
                 nv21[pos++] = uBuffer.get(vuPos);
             }
         }
-
         return nv21;
     }
 
     private Bitmap toBitmap(Image image) {
-
         byte[] nv21=YUV_420_888toNV21(image);
-
-
         YuvImage yuvImage = new YuvImage(nv21, ImageFormat.NV21, image.getWidth(), image.getHeight(), null);
-
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         yuvImage.compressToJpeg(new Rect(0, 0, yuvImage.getWidth(), yuvImage.getHeight()), 75, out);
-
         byte[] imageBytes = out.toByteArray();
-        //System.out.println("bytes"+ Arrays.toString(imageBytes));
-
-        //System.out.println("FORMAT"+image.getFormat());
-
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 
@@ -978,11 +955,8 @@ public class FaceRecogntionActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("HashMap", MODE_PRIVATE);
         String defValue = new Gson().toJson(new HashMap<String, SimilarityClassifier.Recognition>());
         String json=sharedPreferences.getString("map",defValue);
-        // System.out.println("Output json"+json.toString());
         TypeToken<HashMap<String,SimilarityClassifier.Recognition>> token = new TypeToken<HashMap<String,SimilarityClassifier.Recognition>>() {};
         HashMap<String,SimilarityClassifier.Recognition> retrievedMap=new Gson().fromJson(json,token.getType());
-        // System.out.println("Output map"+retrievedMap.toString());
-
         //During type conversion and save/load procedure,format changes(eg float converted to double).
         //So embeddings need to be extracted from it in required format(eg.double to float).
         for (Map.Entry<String, SimilarityClassifier.Recognition> entry : retrievedMap.entrySet())
@@ -994,14 +968,10 @@ public class FaceRecogntionActivity extends AppCompatActivity {
                 output[0][counter]= ((Double) arrayList.get(counter)).floatValue();
             }
             entry.getValue().setExtra(output);
-
-
         }
-
         Toast.makeText(context, "Recognitions Loaded", Toast.LENGTH_SHORT).show();
         return retrievedMap;
     }
-
     public void onBackPressed() {
         Intent i=new Intent(this, AttendanceActivity.class);
         startActivity(i);
