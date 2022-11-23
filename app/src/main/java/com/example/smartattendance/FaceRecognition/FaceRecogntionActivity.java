@@ -69,6 +69,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -711,7 +712,9 @@ public class FaceRecogntionActivity extends AppCompatActivity {
                                 updates.put("student",user_name);
 //                                updates.put()
                                 updates.put("attended", ServerValue.increment(1));
-                                database.getReference().child("uploads").child(user_name+"N2bGujnn8SJx4y7jhIw").updateChildren(updates);
+                                FirebaseAuth mAuth=FirebaseAuth.getInstance();
+                                String uid=mAuth.getUid();
+                                database.getReference().child("uploads").child(uid).child(user_name).updateChildren(updates);
 
 //                                database.getReference().child("uploads").child(user_name+"N2bGujnn8SJx4y7jhIw").addValueEventListener(new ValueEventListener() {
 //                                    @Override

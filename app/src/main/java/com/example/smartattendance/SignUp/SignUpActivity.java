@@ -1,6 +1,8 @@
 package com.example.smartattendance.SignUp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.video.VideoRecordEvent;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -70,20 +72,16 @@ public class SignUpActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+
                 }
+                Intent i=new Intent(getBaseContext(),SignInActivity.class);
+                startActivity(i);
+
 
 
             }
         });
 
-        binding.noAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
     }
 

@@ -13,10 +13,12 @@ import android.view.View;
 import android.widget.Toast;
 import com.example.smartattendance.Adapters.AttendanceAdapter;
 import com.example.smartattendance.FaceRecognition.FaceRecogntionActivity;
+import com.example.smartattendance.MainActivity;
 import com.example.smartattendance.Model.UploadFile;
 import com.example.smartattendance.R;
 import com.example.smartattendance.databinding.ActivityAttendanceBinding;
 import com.example.smartattendance.db.DBHelper;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,7 @@ public class AttendanceActivity extends AppCompatActivity {
     List<UploadFile> uploadFiles;
     AttendanceAdapter adapter;
     private FirebaseDatabase database;
+    FirebaseAuth mauth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class AttendanceActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.shimmer.startShimmer();
         uploadFiles = new ArrayList<>();
+        mauth=FirebaseAuth.getInstance();
         viewAllFiles();
         adapter = new AttendanceAdapter(this,uploadFiles);
         dbHelper = new DBHelper(this);
@@ -63,7 +67,8 @@ public class AttendanceActivity extends AppCompatActivity {
         binding.shimmer.startShimmer();
         binding.shimmer.setVisibility(View.VISIBLE);
         binding.listView.setVisibility(View.VISIBLE);
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("uploads");
+        String UID=mauth.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("uploads").child(UID);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -101,7 +106,8 @@ public class AttendanceActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.delete:
-                database.getReference().child("uploads").removeValue();
+
+                database.getReference().child("uploads").child(mauth.getUid()).removeValue();
                 dbHelper.deleteAll();
                 binding.emptyView.setVisibility(View.VISIBLE);
                 Toast.makeText(this, "All Attendance deleted", Toast.LENGTH_SHORT).show();
@@ -111,6 +117,11 @@ public class AttendanceActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onBackPressed() {
+        Intent i=new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
 
